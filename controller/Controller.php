@@ -1,61 +1,79 @@
 <?php
+include_once 'model/Model.php';
+include_once 'view/ViewFactory.php';
 
-	include_once 'model/Model.php';
-	include_once 'view/ViewFactory.php';
+/**
+ * Class Controller
+ *
+ * @author Alek Nikolov <anikolov111@gmail.com>
+ */
+class Controller 
+{
+	/**
+	 * @var Model
+	 */
+	private $model;
+	/**
+	 * @var ViewFactory
+	 */
+	private $viewFactory;
+	/**
+	 * @static Controller
+	 */
+	private static $inst;
 
-	class Controller {
-
-		private $model;
-		private $view_factory;
-		private static $inst;
-
-		private function __construct() {
-
-			$this->model = new Model();
-			$this->view_factory = new ViewFactory();
-
-		}
-
-		// Create static instance of Controller class
-		public static function instance() {
-
-			if(self::$inst == null) {
-
-				self::$inst = new Controller();
-
-			}
-
-			return self::$inst;
-
-		}
-
-		// Get the required page from the request and create a View
-		public function createPage() {
-			$content = null;
-			$page_type = null;
-
-			if(isset($_GET['page'])) {
-
-				if($_GET['page'] == 'list')
-					$content = $this->model->getAllBooks();
-				else 
-					$content = $this->model->getBook($_GET['book_name']);
-
-				$page_type = $_GET['page'];
-
-			}
-
-			$view = $this->view_factory->getView($page_type, $content);
-
-			$this->display($view);
-
-		}
-
-		// Print page
-		private function display(ViewInterface $view) {
-
-			$view->display();
-
-		}
-
+	/**
+	 * Controller constructor.
+	 */
+	private function __construct() 
+	{
+		$this->model = new Model();
+		$this->viewFactory = new ViewFactory();
 	}
+
+	/**
+	 * Create static instance of Controller class
+	 *
+	 * @return Controller
+	 */
+	public static function instance(): Controller
+	{
+		if(self::$inst == null) {
+			self::$inst = new Controller();
+		}
+
+		return self::$inst;
+	}
+
+	/**
+	 * Get the required page from the request and create a View
+	 */
+	public function createPage(): void 
+	{
+		$content = null;
+		$pageType = null;
+
+		if(isset($_GET['page'])) {
+			if($_GET['page'] == 'list') {
+				$content = $this->model->getAllBooks();
+			} else {
+				$content = $this->model->getBook($_GET['book_name']);
+			}
+			$pageType = $_GET['page'];
+		}
+
+		$view = $this->viewFactory->getView($pageType, $content);
+
+		$this->display($view);
+	}
+
+	/**
+	 * Display contents of page
+	 *
+	 * @param ViewInterface $view
+	 */
+	private function display(ViewInterface $view): void
+	{
+		$view->display();
+	}
+}

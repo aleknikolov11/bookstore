@@ -8,7 +8,7 @@
 interface ViewInterface
 {
     /**
-     * Some description here
+     * Displays the contents of the page
      * @return mixed
      */
     public function display(): void;

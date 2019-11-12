@@ -1,5 +1,4 @@
 <?php
-
 include_once 'index.php';
 
 if (isset($_POST['showall_button']))  { // If all books are requested
