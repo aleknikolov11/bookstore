@@ -1,31 +1,44 @@
 <?php
-	
-	include_once 'ViewInterface.php';
 
-	// View for Home Page
-	class HomeView implements ViewInterface {
+include_once 'ViewInterface.php';
 
-		private $err_msg;
+/**
+ * Class HomeView
+ *
+ * @author Martin Krastev <m.krastev96@gmail.com>
+ */
+class HomeView implements ViewInterface
+{
+    /**
+     * @var string
+     */
+    private $errorMsg;
 
-		public function __construct($err_msg = null) {
+    /**
+     * HomeView constructor.
+     *
+     * @param string|null $errorMsg
+     */
+    public function __construct(string $errorMsg = null)
+    {
+        $this->errorMsg = $errorMsg;
+    }
 
-			$this->err_msg = $err_msg;
-
-		}
-
-
-		public function display() {
-
-			$display_content = "<form action='search.php' method='post'>
+    /**
+     * @inheritDoc
+     */
+    public function display(): void
+    {
+        $display_content = "<form action='search.php' method='post'>
 						<input type='text' name='book_name' placeholder='Search for a book'>
 						<button type='submit' name='search_button'>Search</button>
 						<button type='submit' name='showall_button'>Show all</button>
 						</form>";
 
-			if($this->err_msg != null) 
-				$display_content .= "<p style='color:red;'>".$this->err_msg."</p>";
+        if ($this->errorMsg != null) {
+            $display_content .= "<p style='color:red;'>" . $this->errorMsg . "</p>";
+        }
 
-			echo $display_content;
-
-		}
-	}
+        echo $display_content;
+    }
+}

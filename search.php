@@ -1,26 +1,17 @@
 <?php
 
-	include_once 'index.php';
+include_once 'index.php';
 
-	// If all books are requested
-	if(isset($_POST['showall_button']))
-		header("Location: index.php?page=list");
-
-	// If a single book is requested
-	elseif(isset($_POST['search_button'])) {
-
-		// If no name is provided, list all books
-		if(empty($_POST['book_name']))
-			header("Location: index.php?page=list");
-
-		// A book name is provided
-		else {
-
-			$book_name = $_POST['book_name'];
-			header("Location: index.php?page=single&book_name=".$book_name);
-
-		}
-
-	// Default is home page
-	} else
-		header("Location: index.php?page=home");
+if (isset($_POST['showall_button']))  { // If all books are requested
+    header("Location: index.php?page=list");
+} elseif (isset($_POST['search_button'])) { // If a single book is requested
+    if (empty($_POST['book_name'])) { // If no name is provided, list all books
+        header("Location: index.php?page=list");
+    } else { // A book name is provided
+        $bookName = $_POST['book_name'];
+        header("Location: index.php?page=single&book_name=" . $bookName);
+    }
+    // Default is home page
+} else {
+    header("Location: index.php?page=home");
+}
